@@ -11,7 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import me.cirq.sencons.R;
 import me.cirq.sencons.SenConsApplication;
@@ -22,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button mStartBtn;
     private Button mStopBtn;
+
+    private ListView mMainLst;
 
     private AccelerometerService.SensorBinder sensorBinder;
     private ServiceConnection connection = new ServiceConnection() {
@@ -50,6 +59,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         };
+    }
+
+
+    private static SensorItem[] sensors = {
+        new SensorItem("gravity", R.drawable.light_gravity, R.drawable.dark_gravity),
+        new SensorItem("acceleration", R.drawable.light_acceleration, R.drawable.dark_acceleration),
+        new SensorItem("rotation", R.drawable.light_rotation, R.drawable.dark_rotation),
+        new SensorItem("magnetism", R.drawable.light_magnetism, R.drawable.dark_magnetism),
+        new SensorItem("light", R.drawable.light_light, R.drawable.dark_light),
+        new SensorItem("proximity", R.drawable.light_proximity, R.drawable.dark_proximity),
+        new SensorItem("temperature", R.drawable.light_temperature, R.drawable.dark_temperature),
+        new SensorItem("humidity", R.drawable.light_humidity, R.drawable.dark_humidity),
+        new SensorItem("pressure", R.drawable.light_pressure, R.drawable.dark_pressure),
+    };
+
+
+    private void adaptMainList(){
+
+        List<SensorItem> list = Arrays.asList(sensors);
+
+        SensorAdapter adapter = new SensorAdapter(this, R.layout.item_sensor, R.id.sensor_name, list);
+        mMainLst.setAdapter(adapter);
+
     }
 
 
@@ -88,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mStopBtn = findViewById(R.id.button_stop);
         mStopBtn.setOnClickListener(this);
+
+        mMainLst = findViewById(R.id.main_list);
+        adaptMainList();
     }
 
 
