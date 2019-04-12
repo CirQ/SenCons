@@ -11,13 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import me.cirq.sencons.R;
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         List<SensorItem> list = Arrays.asList(sensors);
 
-        SensorAdapter adapter = new SensorAdapter(this, R.layout.item_sensor, R.id.sensor_name, list);
+        SensorsAdapter adapter = new SensorsAdapter(this, R.layout.item_sensor, R.id.sensor_name, list);
         mMainLst.setAdapter(adapter);
 
     }

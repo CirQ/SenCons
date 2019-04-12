@@ -11,11 +11,11 @@ import java.util.List;
 
 import me.cirq.sencons.R;
 
-public class SensorAdapter extends ArrayAdapter<SensorItem> {
+public class SensorsAdapter extends ArrayAdapter<SensorItem> {
     private int resourceId;
     private int textViewResourceId;
 
-    public SensorAdapter(Context context, int resourceId, int textViewResourceId, List<SensorItem> objects){
+    public SensorsAdapter(Context context, int resourceId, int textViewResourceId, List<SensorItem> objects){
         super(context, resourceId, textViewResourceId, objects);
         this.resourceId = resourceId;
         this.textViewResourceId = textViewResourceId;

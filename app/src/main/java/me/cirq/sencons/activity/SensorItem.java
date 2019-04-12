@@ -7,7 +7,7 @@ public class SensorItem {
     private int darkImageId;
 
     public SensorItem(String name, int lightImageId, int darkImageId) {
-        this.name = name;
+        this.name = name.toUpperCase();
         this.lightImageId = lightImageId;
         this.darkImageId = darkImageId;
     }
