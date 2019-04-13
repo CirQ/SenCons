@@ -8,7 +8,7 @@ public class SenConsApplication extends Application {
     private static final String TAG = SenConsApplication.class.getName();
 
     public static final String SENSOR_MESSAGE = "SENSOR_MESSAGE";
-    public static final String SENSOR_NAME = "SENSOR_NAME";
+    public static final String SENSOR_TYPE = "SENSOR_TYPE";
     public static final String SENSOR_DATA = "SENSOR_DATA";
 
     private static SenConsApplication singleton;

@@ -20,7 +20,8 @@ import java.util.List;
 
 import me.cirq.sencons.R;
 import me.cirq.sencons.SenConsApplication;
-import me.cirq.sencons.service.AccelerometerService;
+import me.cirq.sencons.service.AccelerationService;
+import me.cirq.sencons.service.SensorBinder;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getName();
@@ -31,12 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView mMainLst;
     private SensorsAdapter mMainAdapter;
 
-    private AccelerometerService.SensorBinder sensorBinder;
+    private SensorBinder sensorBinder;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.d(TAG, "service connected");
-            sensorBinder = (AccelerometerService.SensorBinder)service;
+            sensorBinder = (SensorBinder)service;
             sensorBinder.startService();
         }
         @Override
@@ -52,9 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                String name = intent.getStringExtra(SenConsApplication.SENSOR_NAME);
+                int name = intent.getIntExtra(SenConsApplication.SENSOR_TYPE, 0);
                 float[] values = intent.getFloatArrayExtra(SenConsApplication.SENSOR_DATA);
-//                Log.v(TAG, name+" send intent: "+values[0]);
+                Log.v(TAG, name+" send intent: "+values[0]);
 
             }
         };
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.button_start:
                 Log.d(TAG, "start click");
-                this.bindService(new Intent(this, AccelerometerService.class),
+                this.bindService(new Intent(this, AccelerationService.class),
                                  connection,
                                  BIND_AUTO_CREATE);
                 break;

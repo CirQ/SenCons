@@ -11,9 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
         <service
-            android:name=".service.AccelerometerService"
+            android:name=".service.AccelerationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+        <service android:name=".service.BaseSensorService" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>
