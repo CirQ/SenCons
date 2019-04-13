@@ -9,7 +9,7 @@ public class RotationService extends BaseSensorService {
         TAG = RotationService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_GYROSCOPE;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, RotationService.class);
     }
 

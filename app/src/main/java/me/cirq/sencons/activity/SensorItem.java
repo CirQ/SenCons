@@ -1,25 +1,36 @@
 package me.cirq.sencons.activity;
 
+import android.content.Context;
+import android.content.Intent;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class SensorItem {
 
     private String name;
     private int lightImageId;
     private int darkImageId;
-    private boolean light;
+    private boolean dark;
     private float[] values;
     private String[] dim;
     private String unit;
     private String fmt;
+    private Class<?> sensorService;
 
-    public SensorItem(String name, int lightImageId, int darkImageId, String[] dim, String unit, int round) {
+    private Context context;
+    private SensorConnection connection;
+
+    public SensorItem(String name, int lightImageId, int darkImageId, String[] dim, String unit, int round, Class<?> sensorService) {
         this.name = name.toUpperCase();
         this.lightImageId = lightImageId;
         this.darkImageId = darkImageId;
-        this.light = true;
-        this.values = new float[]{1, 1, 1};
+        this.dark = false;
+        this.values = new float[3];
         this.dim = dim;
         this.unit = unit;
         this.fmt = String.format("%%s: %%.%df %%s", round);
+        this.sensorService = sensorService;
     }
 
     public String getName() {
@@ -27,11 +38,16 @@ public class SensorItem {
     }
 
     public int getImageId() {
-        return light ? lightImageId : darkImageId;
+        return dark ? darkImageId : lightImageId;
     }
 
-    public void flipIcon(){
-        this.light ^= true;
+    public boolean flipIcon(){
+        this.dark ^= true;
+        return dark;
+    }
+
+    public boolean isRunning(){
+        return dark;
     }
 
     public void setValues(float[] values){
@@ -39,9 +55,28 @@ public class SensorItem {
     }
 
     public String getValue(int i){
-        if(values[i] < 0)
+        if(i >= dim.length)
             return "";
         return String.format(fmt, dim[i], values[i], unit);
     }
 
+    public boolean connect(Context context) {
+        this.context = context;
+        this.connection = new SensorConnection();
+        Intent intent = new Intent(context, sensorService);
+        return context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
+//        try {
+//            Method hasSensorMethod = sensorService.getMethod("hasSensor");
+//            return (Boolean)hasSensorMethod.invoke(null);
+//        } catch (Exception e) {
+//            return false;
+//        }
+    }
+
+    public void disconnect() {
+        if(connection!=null && connection.isRunning()) {
+            connection.stopService();
+            context.unbindService(connection);
+        }
+    }
 }

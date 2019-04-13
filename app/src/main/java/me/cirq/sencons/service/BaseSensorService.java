@@ -12,15 +12,15 @@ import android.util.Log;
 import me.cirq.sencons.SenConsApplication;
 
 public class BaseSensorService extends Service implements SensorEventListener {
-    protected static final boolean mLogging = true;
+    protected static final boolean mLogging = false;
 
-    protected static SensorManager mSensorManager;
+    protected static SensorManager sensorManager;
+    protected static Sensor sensor;
     protected String TAG = "";
     protected int mType;
-    protected Sensor mSensor;
     protected SensorBinder mBinder;
     static {
-        mSensorManager = (SensorManager)SenConsApplication.getContext().getSystemService(SENSOR_SERVICE);
+        sensorManager = (SensorManager)SenConsApplication.getContext().getSystemService(SENSOR_SERVICE);
     }
 
 
@@ -34,7 +34,7 @@ public class BaseSensorService extends Service implements SensorEventListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
         Log.v(TAG, "onStartCommand invoked");
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -42,7 +42,7 @@ public class BaseSensorService extends Service implements SensorEventListener {
     @Override
     public void onDestroy(){
         Log.v(TAG, "onDestroy invoked");
-        mSensorManager.unregisterListener(this);
+        sensorManager.unregisterListener(this);
         stopSelf();
         super.onDestroy();
     }

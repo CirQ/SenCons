@@ -9,7 +9,7 @@ public class ProximityService extends BaseSensorService {
         TAG = ProximityService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_PROXIMITY;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, ProximityService.class);
     }
 

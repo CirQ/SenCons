@@ -9,7 +9,7 @@ public class TemperatureService extends BaseSensorService {
         TAG = TemperatureService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_AMBIENT_TEMPERATURE;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, TemperatureService.class);
     }
 

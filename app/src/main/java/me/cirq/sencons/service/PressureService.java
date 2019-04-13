@@ -9,7 +9,7 @@ public class PressureService extends BaseSensorService {
         TAG = PressureService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_PRESSURE;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, PressureService.class);
     }
 

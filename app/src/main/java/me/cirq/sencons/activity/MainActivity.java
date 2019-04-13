@@ -1,12 +1,10 @@
 package me.cirq.sencons.activity;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.os.IBinder;
+import android.hardware.Sensor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +14,18 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Arrays;
-import java.util.List;
 
 import me.cirq.sencons.R;
 import me.cirq.sencons.SenConsApplication;
 import me.cirq.sencons.service.AccelerationService;
-import me.cirq.sencons.service.SensorBinder;
+import me.cirq.sencons.service.GravityService;
+import me.cirq.sencons.service.HumidityService;
+import me.cirq.sencons.service.LightService;
+import me.cirq.sencons.service.MagnetismService;
+import me.cirq.sencons.service.PressureService;
+import me.cirq.sencons.service.ProximityService;
+import me.cirq.sencons.service.RotationService;
+import me.cirq.sencons.service.TemperatureService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getName();
@@ -32,83 +36,105 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView mMainLst;
     private SensorsAdapter mMainAdapter;
 
-    private SensorBinder sensorBinder;
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(TAG, "service connected");
-            sensorBinder = (SensorBinder)service;
-            sensorBinder.startService();
-        }
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.d(TAG, "service disconnected");
-        }
-    };
 
-
-    private static BroadcastReceiver mReceiver;
-    private static BroadcastReceiver initReceiver(){
+    private BroadcastReceiver mReceiver;
+    private BroadcastReceiver initReceiver(){
         return new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 int name = intent.getIntExtra(SenConsApplication.SENSOR_TYPE, 0);
                 float[] values = intent.getFloatArrayExtra(SenConsApplication.SENSOR_DATA);
-                Log.v(TAG, name+" send intent: "+values[0]);
-
+                switch (name){
+                    case Sensor.TYPE_GRAVITY:
+                        sensors[0].setValues(values);
+                        break;
+                    case Sensor.TYPE_LINEAR_ACCELERATION:
+                        sensors[1].setValues(values);
+                        break;
+                    case Sensor.TYPE_GYROSCOPE:
+                        sensors[2].setValues(values);
+                        break;
+                    case Sensor.TYPE_MAGNETIC_FIELD:
+                        sensors[3].setValues(values);
+                        break;
+                    case Sensor.TYPE_LIGHT:
+                        sensors[4].setValues(values);
+                        break;
+                    case Sensor.TYPE_PROXIMITY:
+                        sensors[5].setValues(values);
+                        break;
+                    case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                        sensors[6].setValues(values);
+                        break;
+                    case Sensor.TYPE_RELATIVE_HUMIDITY:
+                        sensors[7].setValues(values);
+                        break;
+                    case Sensor.TYPE_PRESSURE:
+                        sensors[8].setValues(values);
+                        break;
+                    default:
+                        break;
+                }
+                mMainAdapter.notifyDataSetChanged();
             }
         };
     }
 
 
-    private static SensorItem[] sensors = {
-        new SensorItem("gravity",       R.drawable.light_gravity,       R.drawable.dark_gravity,        new String[]{"x","y","z"},  "m/s²",     6),
-        new SensorItem("acceleration",  R.drawable.light_acceleration,  R.drawable.dark_acceleration,   new String[]{"x","y","z"},  "m/s²",     6),
-        new SensorItem("rotation",      R.drawable.light_rotation,      R.drawable.dark_rotation,       new String[]{"x","y","z"},  "rad/s",    6),
-        new SensorItem("magnetism",     R.drawable.light_magnetism,     R.drawable.dark_magnetism,      new String[]{"x","y","z"},  "μT",       6),
-        new SensorItem("light",         R.drawable.light_light,         R.drawable.dark_light,          new String[]{"lux","",""},  "lx",       6),
-        new SensorItem("proximity",     R.drawable.light_proximity,     R.drawable.dark_proximity,      new String[]{"d","",""},    "cm",       2),
-        new SensorItem("temperature",   R.drawable.light_temperature,   R.drawable.dark_temperature,    new String[]{"T","",""},    "°C",       1),
-        new SensorItem("humidity",      R.drawable.light_humidity,      R.drawable.dark_humidity,       new String[]{"AH","",""},   "%",        2),
-        new SensorItem("pressure",      R.drawable.light_pressure,      R.drawable.dark_pressure,       new String[]{"p","",""},    "hPa",      6),
+    private SensorItem[] sensors = {
+        new SensorItem("gravity",      R.drawable.light_gravity,      R.drawable.dark_gravity,      new String[]{"x","y","z"}, "m/s²",  6, GravityService.class),
+        new SensorItem("acceleration", R.drawable.light_acceleration, R.drawable.dark_acceleration, new String[]{"x","y","z"}, "m/s²",  6, AccelerationService.class),
+        new SensorItem("rotation",     R.drawable.light_rotation,     R.drawable.dark_rotation,     new String[]{"x","y","z"}, "rad/s", 6, RotationService.class),
+        new SensorItem("magnetism",    R.drawable.light_magnetism,    R.drawable.dark_magnetism,    new String[]{"x","y","z"}, "μT",    1, MagnetismService.class),
+        new SensorItem("light",        R.drawable.light_light,        R.drawable.dark_light,        new String[]{"lux"},       "lx",    0, LightService.class),
+        new SensorItem("proximity",    R.drawable.light_proximity,    R.drawable.dark_proximity,    new String[]{"d"},         "cm",    1, ProximityService.class),
+        new SensorItem("temperature",  R.drawable.light_temperature,  R.drawable.dark_temperature,  new String[]{"T"},         "°C",    1, TemperatureService.class),
+        new SensorItem("humidity",     R.drawable.light_humidity,     R.drawable.dark_humidity,     new String[]{"AH"},        "%",     2, HumidityService.class),
+        new SensorItem("pressure",     R.drawable.light_pressure,     R.drawable.dark_pressure,     new String[]{"p"},         "hPa",   4, PressureService.class),
     };
 
 
     private void adaptMainList(){
-        List<SensorItem> list = Arrays.asList(sensors);
-        mMainAdapter = new SensorsAdapter(this, R.layout.item_sensor, R.id.sensor_name, list);
         mMainLst.setAdapter(mMainAdapter);
         mMainLst.setOnItemClickListener((AdapterView<?> parent, View view, int i, long id) -> {
             SensorItem sensor = sensors[i];
             Log.i(TAG, "sensor "+sensor.getName()+" clicked");
-            sensor.flipIcon();
+            if(sensor.flipIcon()){      // the sensor switch is on
+                Log.d(TAG, "connect service "+sensor.getName());
+                if(!sensor.connect(this))
+                    Log.e(TAG, "failed!");
+            }
+            else {                      // the sensor switch is off
+                Log.d(TAG, "disconnect service "+ sensor.getName());
+                sensor.disconnect();
+            }
             mMainAdapter.notifyDataSetChanged();
         });
     }
 
 
 
+    private SensorConnection connection = new SensorConnection();
     @Override
     public void onClick(View view){
         Log.v(TAG, "onClick invoked");
-        switch (view.getId()){
-            case R.id.button_start:
-                Log.d(TAG, "start click");
-                this.bindService(new Intent(this, AccelerationService.class),
-                                 connection,
-                                 BIND_AUTO_CREATE);
-                break;
-            case R.id.button_stop:
-                Log.d(TAG, "stop click");
-                if(sensorBinder != null && !sensorBinder.isStopped()) {
-                    sensorBinder.stopService();
-                    this.unbindService(connection);
-                }
-                break;
-            default:
-                break;
-        }
+//        switch (view.getId()){
+//            case R.id.button_start:
+//                Log.d(TAG, "start click");
+//                this.bindService(new Intent(this, AccelerationService.class),
+//                                 connection,
+//                                 BIND_AUTO_CREATE);
+//                break;
+//            case R.id.button_stop:
+//                Log.d(TAG, "stop click");
+//                if(connection.isRunning()) {
+//                    connection.stopService();
+//                    this.unbindService(connection);
+//                }
+//                break;
+//            default:
+//                break;
+//        }
     }
 
 
@@ -118,13 +144,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mStartBtn = findViewById(R.id.button_start);
-        mStartBtn.setOnClickListener(this);
-
-        mStopBtn = findViewById(R.id.button_stop);
-        mStopBtn.setOnClickListener(this);
+//        mStartBtn = findViewById(R.id.button_start);
+//        mStartBtn.setOnClickListener(this);
+//        mStopBtn = findViewById(R.id.button_stop);
+//        mStopBtn.setOnClickListener(this);
 
         mMainLst = findViewById(R.id.main_list);
+        mMainAdapter = new SensorsAdapter(this, R.layout.item_sensor, R.id.sensor_name, Arrays.asList(sensors));
         adaptMainList();
     }
 
@@ -145,7 +171,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause(){
         Log.v(TAG, "onPause invoked");
-        mStopBtn.callOnClick();
+//        mStopBtn.callOnClick();
+        for(SensorItem sensor: sensors) {
+            if (sensor != null && sensor.isRunning()) {
+                sensor.flipIcon();
+                sensor.disconnect();
+            }
+        }
         if(mReceiver != null){
             try {
                 unregisterReceiver(mReceiver);
@@ -155,5 +187,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         super.onPause();
     }
-
 }

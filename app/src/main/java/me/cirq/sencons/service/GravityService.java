@@ -9,7 +9,7 @@ public class GravityService extends BaseSensorService {
         TAG = GravityService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_GRAVITY;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, GravityService.class);
     }
 

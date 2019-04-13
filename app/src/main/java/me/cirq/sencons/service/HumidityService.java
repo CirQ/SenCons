@@ -9,7 +9,7 @@ public class HumidityService extends BaseSensorService {
         TAG = HumidityService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_RELATIVE_HUMIDITY;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, HumidityService.class);
     }
 

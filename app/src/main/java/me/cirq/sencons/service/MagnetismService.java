@@ -9,7 +9,7 @@ public class MagnetismService extends BaseSensorService {
         TAG = MagnetismService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_MAGNETIC_FIELD;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, MagnetismService.class);
     }
 

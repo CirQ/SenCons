@@ -8,8 +8,8 @@ public class AccelerationService extends BaseSensorService {
     public void onCreate(){
         TAG = AccelerationService.class.getName();
         super.onCreate();
-        mType = Sensor.TYPE_ACCELEROMETER;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        mType = Sensor.TYPE_LINEAR_ACCELERATION;
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, AccelerationService.class);
     }
 

@@ -9,7 +9,7 @@ public class LightService extends BaseSensorService {
         TAG = LightService.class.getName();
         super.onCreate();
         mType = Sensor.TYPE_LIGHT;
-        mSensor = mSensorManager.getDefaultSensor(mType);
+        sensor = sensorManager.getDefaultSensor(mType);
         mBinder = new SensorBinder(TAG, LightService.class);
     }
 
