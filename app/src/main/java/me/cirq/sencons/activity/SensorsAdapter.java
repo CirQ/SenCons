@@ -12,13 +12,14 @@ import java.util.List;
 import me.cirq.sencons.R;
 
 public class SensorsAdapter extends ArrayAdapter<SensorItem> {
-    private int resourceId;
-    private int textViewResourceId;
+    private TextView mText;
+    private ImageView mImage;
+    private TextView mValue0;
+    private TextView mValue1;
+    private TextView mValue2;
 
     public SensorsAdapter(Context context, int resourceId, int textViewResourceId, List<SensorItem> objects){
         super(context, resourceId, textViewResourceId, objects);
-        this.resourceId = resourceId;
-        this.textViewResourceId = textViewResourceId;
     }
 
     @Override
@@ -27,10 +28,16 @@ public class SensorsAdapter extends ArrayAdapter<SensorItem> {
         SensorItem sensor = getItem(position);
 
         if(sensor != null) {
-            ImageView image = view.findViewById(R.id.sensor_image);
-            image.setImageResource(sensor.getImageId());
-            TextView text = view.findViewById(R.id.sensor_name);
-            text.setText(sensor.getName());
+            mText = view.findViewById(R.id.sensor_name);
+            mText.setText(sensor.getName());
+            mImage = view.findViewById(R.id.sensor_image);
+            mImage.setImageResource(sensor.getImageId());
+            mValue0 = view.findViewById(R.id.values0);
+            mValue0.setText(sensor.getValue(0));
+            mValue1 = view.findViewById(R.id.values1);
+            mValue1.setText(sensor.getValue(1));
+            mValue2 = view.findViewById(R.id.values2);
+            mValue2.setText(sensor.getValue(2));
         }
 
         return view;

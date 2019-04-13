@@ -62,15 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private static SensorItem[] sensors = {
-        new SensorItem("gravity", R.drawable.light_gravity, R.drawable.dark_gravity),
-        new SensorItem("acceleration", R.drawable.light_acceleration, R.drawable.dark_acceleration),
-        new SensorItem("rotation", R.drawable.light_rotation, R.drawable.dark_rotation),
-        new SensorItem("magnetism", R.drawable.light_magnetism, R.drawable.dark_magnetism),
-        new SensorItem("light", R.drawable.light_light, R.drawable.dark_light),
-        new SensorItem("proximity", R.drawable.light_proximity, R.drawable.dark_proximity),
-        new SensorItem("temperature", R.drawable.light_temperature, R.drawable.dark_temperature),
-        new SensorItem("humidity", R.drawable.light_humidity, R.drawable.dark_humidity),
-        new SensorItem("pressure", R.drawable.light_pressure, R.drawable.dark_pressure),
+        new SensorItem("gravity",       R.drawable.light_gravity,       R.drawable.dark_gravity,        new String[]{"x","y","z"},  "m/s²",     6),
+        new SensorItem("acceleration",  R.drawable.light_acceleration,  R.drawable.dark_acceleration,   new String[]{"x","y","z"},  "m/s²",     6),
+        new SensorItem("rotation",      R.drawable.light_rotation,      R.drawable.dark_rotation,       new String[]{"x","y","z"},  "rad/s",    6),
+        new SensorItem("magnetism",     R.drawable.light_magnetism,     R.drawable.dark_magnetism,      new String[]{"x","y","z"},  "μT",       6),
+        new SensorItem("light",         R.drawable.light_light,         R.drawable.dark_light,          new String[]{"lux","",""},  "lx",       6),
+        new SensorItem("proximity",     R.drawable.light_proximity,     R.drawable.dark_proximity,      new String[]{"d","",""},    "cm",       2),
+        new SensorItem("temperature",   R.drawable.light_temperature,   R.drawable.dark_temperature,    new String[]{"T","",""},    "°C",       1),
+        new SensorItem("humidity",      R.drawable.light_humidity,      R.drawable.dark_humidity,       new String[]{"AH","",""},   "%",        2),
+        new SensorItem("pressure",      R.drawable.light_pressure,      R.drawable.dark_pressure,       new String[]{"p","",""},    "hPa",      6),
     };
 
 
