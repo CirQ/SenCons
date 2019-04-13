@@ -2,4 +2,6 @@
     <string name="app_name">SenCons</string>
     <string name="start">start</string>
     <string name="stop">stop</string>
+    <string name="zero">0.0</string>
+    <string name="default_string">default</string>
 </resources>

@@ -26,11 +26,12 @@ public class SensorsAdapter extends ArrayAdapter<SensorItem> {
         View view = super.getView(position, convertView, parent);
         SensorItem sensor = getItem(position);
 
-        ImageView image = view.findViewById(R.id.sensor_image);
-        image.setImageResource(sensor.getImageId());
-
-        TextView text = view.findViewById(R.id.sensor_name);
-        text.setText(sensor.getName());
+        if(sensor != null) {
+            ImageView image = view.findViewById(R.id.sensor_image);
+            image.setImageResource(sensor.getImageId());
+            TextView text = view.findViewById(R.id.sensor_name);
+            text.setText(sensor.getName());
+        }
 
         return view;
     }

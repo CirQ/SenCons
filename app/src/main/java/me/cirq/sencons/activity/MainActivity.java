@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mStopBtn;
 
     private ListView mMainLst;
+    private SensorsAdapter mMainAdapter;
 
     private AccelerometerService.SensorBinder sensorBinder;
     private ServiceConnection connection = new ServiceConnection() {
@@ -73,12 +75,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void adaptMainList(){
-
         List<SensorItem> list = Arrays.asList(sensors);
-
-        SensorsAdapter adapter = new SensorsAdapter(this, R.layout.item_sensor, R.id.sensor_name, list);
-        mMainLst.setAdapter(adapter);
-
+        mMainAdapter = new SensorsAdapter(this, R.layout.item_sensor, R.id.sensor_name, list);
+        mMainLst.setAdapter(mMainAdapter);
+        mMainLst.setOnItemClickListener((AdapterView<?> parent, View view, int i, long id) -> {
+            SensorItem sensor = sensors[i];
+            Log.i(TAG, "sensor "+sensor.getName()+" clicked");
+            sensor.flipIcon();
+            mMainAdapter.notifyDataSetChanged();
+        });
     }
 
 
