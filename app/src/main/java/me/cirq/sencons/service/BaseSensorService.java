@@ -11,14 +11,13 @@ import android.util.Log;
 
 import me.cirq.sencons.SenConsApplication;
 
-
 public class BaseSensorService extends Service implements SensorEventListener {
     protected static final boolean mLogging = true;
 
     protected static SensorManager mSensorManager;
     protected String TAG = "";
-    protected Sensor mSensor;
     protected int mType;
+    protected Sensor mSensor;
     protected SensorBinder mBinder;
     static {
         mSensorManager = (SensorManager)SenConsApplication.getContext().getSystemService(SENSOR_SERVICE);

@@ -10,16 +10,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
-        <service
-            android:name=".service.AccelerationService"
-            android:enabled="true"
-            android:exported="true" />
         <service android:name=".service.BaseSensorService" />
+        <service android:name=".service.GravityService" />
+        <service android:name=".service.AccelerationService" />
+        <service android:name=".service.RotationService" />
+        <service android:name=".service.MagnetismService" />
+        <service android:name=".service.LightService" />
+        <service android:name=".service.ProximityService" />
+        <service android:name=".service.TemperatureService" />
+        <service android:name=".service.HumidityService" />
+        <service android:name=".service.PressureService" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
