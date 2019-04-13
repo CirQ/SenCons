@@ -25,6 +25,6 @@ public class SensorItem {
     }
 
     public int getImageId() {
-        return darkImageId;
+        return lightImageId;
     }
 }
