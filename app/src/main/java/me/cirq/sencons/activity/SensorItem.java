@@ -77,6 +77,7 @@ public class SensorItem {
         if(connection!=null && connection.isRunning()) {
             connection.stopService();
             context.unbindService(connection);
+            connection = null;
         }
     }
 }

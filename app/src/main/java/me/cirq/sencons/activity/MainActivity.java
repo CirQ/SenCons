@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new SensorItem("proximity",    R.drawable.light_proximity,    R.drawable.dark_proximity,    new String[]{"d"},         "cm",    1, ProximityService.class),
         new SensorItem("temperature",  R.drawable.light_temperature,  R.drawable.dark_temperature,  new String[]{"T"},         "°C",    1, TemperatureService.class),
         new SensorItem("humidity",     R.drawable.light_humidity,     R.drawable.dark_humidity,     new String[]{"AH"},        "%",     2, HumidityService.class),
-        new SensorItem("pressure",     R.drawable.light_pressure,     R.drawable.dark_pressure,     new String[]{"p"},         "hPa",   4, PressureService.class),
+        new SensorItem("pressure",     R.drawable.light_pressure,     R.drawable.dark_pressure,     new String[]{"p"},         "hPa",   2, PressureService.class),
     };
 
 
